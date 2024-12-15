@@ -1,66 +1,61 @@
 import { Type } from 'class-transformer';
-import {
-    ArrayMinSize,
-    IsArray,
-    IsNotEmpty,
-    IsNumber,
-    IsPositive,
-    IsString,
-    IsUrl,
-    MaxLength,
-    Min,
-    ValidateNested,
-} from 'class-validator';
-export class CaracteristicaProdutoDTO {
+import { ArrayMinSize, IsArray, IsNotEmpty, IsNumber, IsPositive, IsString, IsUrl, IsUUID, MaxLength, Min, ValidateNested } from 'class-validator';
+
+export class ProductFeaturesDTO {
     @IsString()
     @IsNotEmpty({ message: 'Nome da cadasterística não pode ser vazio' })
-    nome: string;
+    name: string;
 
     @IsString()
     @IsNotEmpty({ message: 'Descrição da característica não pode ser vazio' })
-    descricao: string;
+    description: string;
 }
-export class ImagemProdutoDTO {
+
+export class ProductImageDTO {
     @IsUrl(undefined, { message: 'URL para imagem inválida' })
     url: string;
 
     @IsString()
     @IsNotEmpty({ message: 'Descrição da imagem não pode ser vazia' })
-    descricao: string;
+    description: string;
 }
-export class CriaProdutoDTO {
+
+export class CreateProductDTO {
+    @IsUUID(undefined, { message: 'ID de usuário inválido' })
+    userId: string;
+
     @IsString()
     @IsNotEmpty({ message: 'Nome do produto não pode ser vazio' })
-    nome: string;
+    name: string;
 
     @IsNumber({ maxDecimalPlaces: 2, allowNaN: false, allowInfinity: false })
     @IsPositive({ message: 'O valor precisa ser maior que zero' })
-    valor: number;
+    value: number;
 
     @IsNumber()
     @Min(0, { message: 'Quantidade mínima inválida' })
-    quantidade: number;
+    quantity: number;
 
     @IsString()
     @IsNotEmpty({ message: 'Descrição do produto não pode ser vazia ' })
     @MaxLength(1000, {
         message: 'Descrição não pode ter mais que 1000 caracteres',
     })
-    descricao: string;
+    description: string;
 
     @ValidateNested()
     @IsArray()
     @ArrayMinSize(3)
-    @Type(() => CaracteristicaProdutoDTO)
-    caracteristicas: CaracteristicaProdutoDTO[];
+    @Type(() => ProductFeaturesDTO)
+    features: ProductFeaturesDTO[];
 
     @ValidateNested()
     @IsArray()
     @ArrayMinSize(1)
-    @Type(() => ImagemProdutoDTO)
-    imagens: ImagemProdutoDTO[];
+    @Type(() => ProductImageDTO)
+    images: ProductImageDTO[];
 
     @IsString()
     @IsNotEmpty({ message: 'Categoria do produto não pode ser vazia' })
-    categoria: string;
+    category: string;
 }

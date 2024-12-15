@@ -1,23 +1,11 @@
-import { Injectable } from "@nestjs/common";
-
-type Product = {
-    name: string;
-    value: number;
-    quantity: number;
-    description: string;
-    features: Array<{ name: string, description: string }>;
-    images: Array<{ url: string, description: string }>;
-    category: string;
-    creationDate: string;
-    updatedAt: string;
-}
+import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class ProductRepository {
-    private products: Product[] = [];
+    private products = [];
 
-    async save(product: Product) {
-        this.products.push(product)
+    async save(product) {
+        this.products.push(product);
     }
 
     async findAll() {

@@ -1,25 +1,13 @@
-import { Body, Controller, Get, Post } from "@nestjs/common";
-import { ProductRepository } from "./product.repository";
-
-type Product = {
-    name: string;
-    value: number;
-    quantity: number;
-    description: string;
-    features: Array<{ name: string, description: string }>;
-    images: Array<{ url: string, description: string }>;
-    category: string;
-    creationDate: string;
-    updatedAt: string;
-}
+import { Body, Controller, Get, Post } from '@nestjs/common';
+import { ProductRepository } from './product.repository';
+import { CreateProductDTO } from './dto/CreateProduct.dto';
 
 @Controller('/products')
 export class ProductController {
-
-    constructor(private productRepository: ProductRepository) { }
+    constructor(private productRepository: ProductRepository) {}
 
     @Post()
-    async createUser(@Body() productData: Product) {
+    async createUser(@Body() productData: CreateProductDTO) {
         await this.productRepository.save(productData);
 
         return { message: 'Product created', productData };
